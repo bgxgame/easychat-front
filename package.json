@@ -16,6 +16,44 @@
     "build:mac": "npm run build && electron-builder --mac --config",
     "build:linux": "npm run build && electron-builder --linux --config"
   },
+  "build": {
+    "extraResources": [
+      "./assets/**"
+    ],
+    "productName": "EasyChat",
+    "appId": "com.yckj.easychat",
+    "directories": {
+      "output": "installPackages"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "resources/icon.ico",
+      "uninstallerIcon": "resources/icon.ico",
+      "installerHeaderIcon": "resources/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "EasyChat"
+    },
+    "mac": {
+      "icon": "resources/icon.icns"
+    },
+    "win": {
+      "artifactName": "${productName}Setup.${version}.exe",
+      "icon": "resources/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    }
+  },
   "dependencies": {
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
@@ -36,8 +74,7 @@
     "v-viewer": "^3.0.11",
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.2.5",
-    "ws": "^8.16.0" 
-
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.1",
