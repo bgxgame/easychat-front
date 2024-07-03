@@ -1,21 +1,34 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, webContents } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+const NODE_ENV = process.env.NODE_ENV
+
+const login_width = 300;
+const login_height = 345;
+const register_height = 490;
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: login_width,
+    height: login_height,
     show: false,
     autoHideMenuBar: true,
+    titleBarStyle: "hidden",
+    resizable: false,
+    frame: true,
+    transparent:true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
+
+  if (NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -36,7 +49,7 @@ function createWindow() {
 }
 
 // This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// initialization and is ready minto create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
