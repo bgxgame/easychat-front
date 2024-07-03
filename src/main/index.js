@@ -11,6 +11,7 @@ const register_height = 490;
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    icon:icon,
     width: login_width,
     height: login_height,
     show: false,
@@ -18,14 +19,12 @@ function createWindow() {
     titleBarStyle: "hidden",
     resizable: false,
     frame: true,
-    transparent:true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    transparent:true, 
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
-
   if (NODE_ENV === 'development') {
     mainWindow.webContents.openDevTools();
   }
@@ -53,7 +52,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.yckj.easychat')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
