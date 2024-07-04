@@ -45,8 +45,9 @@ function createWindow() {
   }
   // 接收渲染进程 注册登录状态
   ipcMain.on("loginOrRegister", (_event, isLogin) => {
-    console.log('收到渲染进程消息： ',isLogin);  
+    console.log('收到渲染进程消息 - isLogin :',isLogin);  
     mainWindow.setResizable(true);
+    // 没有账号时 isLogin: false 显示注册页面
     if (isLogin) {
       mainWindow.setSize(login_width,login_height);
     } else {

@@ -3,16 +3,31 @@ import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 const { proxy } = getCurrentInstance()
 
 const formData = ref({})
-const formDataRef = ref({})
-const rules = {
-  title: [{ required: true, message: '请输入内容' }]
-}
+const formDataRef = ref()
+
 
 const isLogin = ref(true)
 const changeOpType = () => {
   isLogin.value = !isLogin.value
+  console.log('isLogin :', isLogin.value);
   // 渲染进程给主进程发送登录状态
   window.loginOrRegister.isLogin(isLogin.value)
+}
+const errorMsg = ref(null)
+const sumbit = () => {
+  errorMsg.value = null;
+  if (!formData.value.email) {
+    errorMsg.value = '请输入邮箱';
+    return;
+  }
+  if (!formData.value.password) {
+    errorMsg.value = '请输入密码';
+    return;
+  }
+  if (!formData.value.checkcode) {
+    errorMsg.value = '请输入验证码';
+    return;
+  }
 }
 </script>
 
@@ -20,8 +35,8 @@ const changeOpType = () => {
   <div class="login-panel">
     <div class="title drag">EasyChat</div>
     <div class="login-form">
-      <div class="error-msg"></div>
-      <el-form :model="formData" :rules="rules" ref="formDataRef" label-width="0px" @submit.prevent>
+      <div class="error-msg">{{ errorMsg }}</div>
+      <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!-- 邮箱输入 -->
         <el-form-item prop="email">
           <el-input clearable placeholder="请输入邮箱" v-model.trim="formData.email">
@@ -64,7 +79,7 @@ const changeOpType = () => {
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item prop="login">
-          <el-button type="primary" class="login-btn" @click="">{{ isLogin ? '登录' : '注册' }}</el-button>
+          <el-button type="primary" class="login-btn" @click="sumbit">{{ isLogin ? '登录' : '注册' }}</el-button>
         </el-form-item>
         <div class="bottom-link">
           <span class="a-link" @click="changeOpType">{{ isLogin ? '没有账号?' : '已有账号?' }}</span>
