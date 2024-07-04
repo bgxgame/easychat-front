@@ -30,25 +30,24 @@
       "allowElevation": true,
       "perMachine": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "resources/icon.ico",
-      "uninstallerIcon": "resources/icon.ico",
-      "installerHeaderIcon": "resources/icon.ico",
+      "installerIcon": "./resources/icon.ico",
+      "uninstallerIcon": "./resources/icon.ico",
+      "installerHeaderIcon": "./resources/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "EasyChat"
     },
     "mac": {
-      "icon": "resources/icon.icns"
+      "icon": "./resources/icon.icns"
     },
     "win": {
       "artifactName": "${productName}Setup.${version}.exe",
-      "icon": "resources/icon.ico",
+      "icon": "./resources/icon.ico",
       "target": [
         {
           "target": "nsis",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ]

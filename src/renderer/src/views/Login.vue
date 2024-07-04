@@ -1,12 +1,18 @@
 <script setup>
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
-
 const { proxy } = getCurrentInstance()
 
 const formData = ref({})
 const formDataRef = ref({})
 const rules = {
   title: [{ required: true, message: '请输入内容' }]
+}
+
+const isLogin = ref(true)
+const changeOpType = () => {
+  isLogin.value = !isLogin.value
+  // 渲染进程给主进程发送登录状态
+  window.loginOrRegister.isLogin(isLogin.value)
 }
 </script>
 
@@ -24,9 +30,25 @@ const rules = {
             </template>
           </el-input>
         </el-form-item>
+        <!-- 注册 昵称输入 -->
+        <el-form-item prop="nickName" v-if="!isLogin">
+          <el-input clearable placeholder="请输入昵称" v-model.trim="formData.nickName">
+            <template #prefix>
+              <span class="iconfont icon-user-nick"></span>
+            </template>
+          </el-input>
+        </el-form-item>
         <!-- 密码输入 -->
         <el-form-item prop="password">
           <el-input show-password clearable placeholder="请输入密码" v-model.trim="formData.password">
+            <template #prefix>
+              <span class="iconfont icon-password"></span>
+            </template>
+          </el-input>
+        </el-form-item>
+        <!--注册 再次 密码输入 -->
+        <el-form-item prop="rePassword" v-if="!isLogin">
+          <el-input show-password clearable placeholder="请再次输入密码" v-model.trim="formData.rePassword">
             <template #prefix>
               <span class="iconfont icon-password"></span>
             </template>
@@ -42,10 +64,10 @@ const rules = {
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item prop="login">
-          <el-button type="primary" class="login-btn" @click="">登录</el-button>
+          <el-button type="primary" class="login-btn" @click="">{{ isLogin ? '登录' : '注册' }}</el-button>
         </el-form-item>
         <div class="bottom-link">
-          <span class="a-link">没有账号?</span>
+          <span class="a-link" @click="changeOpType">{{ isLogin ? '没有账号?' : '已有账号?' }}</span>
         </div>
       </el-form>
     </div>
