@@ -14,20 +14,45 @@ const changeOpType = () => {
   window.loginOrRegister.isLogin(isLogin.value)
 }
 const errorMsg = ref(null)
+
 const sumbit = () => {
+
+  // 清空校验
+  clearVerify();
+
+  // 检查用户输入
+  if (!checkValue('checkEmail', formData.value.email, '请输入正确邮箱')) {
+    return
+  }
+
+  if (!checkValue('checkPassword', formData.value.password, '密码为数字、字母、特殊字符8-12位')) {
+    return
+  }
+
+  if (!checkValue('null', formData.value.checkcode, '请输入正确验证码')) {
+    return
+  }
+}
+
+// 检查用户输入是否合法
+const checkValue = (type, value, msg) => {
+
+  // debugger 可以打开页面调试 不需要在前端手动打断点
+
+  if (proxy.Utils.isEmpty(value)) {
+    errorMsg.value = msg
+    return false
+  }
+
+  if (type && !proxy.Verify[type](value)) {
+    errorMsg.value = msg
+    return false
+  }
+  return true;
+}
+
+const clearVerify = () => {
   errorMsg.value = null;
-  if (!formData.value.email) {
-    errorMsg.value = '请输入邮箱';
-    return;
-  }
-  if (!formData.value.password) {
-    errorMsg.value = '请输入密码';
-    return;
-  }
-  if (!formData.value.checkcode) {
-    errorMsg.value = '请输入验证码';
-    return;
-  }
 }
 </script>
 
