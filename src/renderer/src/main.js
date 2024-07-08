@@ -20,12 +20,18 @@ import router from '@/router'
 // 引入自定义Utils Verfiy
 import Utils from '@/utils/Utils.js'
 import Verify from '@/utils/Verify.js'
+import Request from '@/utils/Request.js'
+import Message from '@/utils/Message.js'
+import Api from '@/utils/Api.js'
 
 const app = createApp(App)
 
 // 将Utils Verfiy 作为全局变量
 app.config.globalProperties.Utils = Utils;
 app.config.globalProperties.Verify = Verify;
+app.config.globalProperties.Request = Request;
+app.config.globalProperties.Message = Message;
+app.config.globalProperties.Api = Api;
 
 app.use(router)
 

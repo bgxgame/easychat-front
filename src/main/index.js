@@ -56,12 +56,14 @@ function createWindow() {
   let tray  = new Tray(join(__dirname,'../../resources/icon.png'));
     const trayContextMenu = Menu.buildFromTemplate([
       {
+        icon: join(__dirname,'../../resources/icons/16x16.png'),
         label: '打开',
         click: () => {
           mainWindow.show();
         }
       }, 
       {
+        icon: join(__dirname,'../../resources/icons/16x16.png'),
         label: '退出',
         click: () => {
           app.quit();
@@ -71,7 +73,7 @@ function createWindow() {
     
     tray.setToolTip('EasyChat');
     tray.on('click', () => {
-      win.show();
+      mainWindow.show();
     });
     tray.on('right-click', () => {
       tray.popUpContextMenu(trayContextMenu);

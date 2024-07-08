@@ -18,6 +18,11 @@ const changeOpType = () => {
     clearVerify();
   })
 }
+
+// 获取验证码
+
+
+
 const errorMsg = ref(null)
 
 const sumbit = () => {
