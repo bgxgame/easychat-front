@@ -71,7 +71,7 @@ function createWindow() {
     
     tray.setToolTip('EasyChat');
     tray.on('click', () => {
-      win.show();
+      mainWindow.show();
     });
     tray.on('right-click', () => {
       tray.popUpContextMenu(trayContextMenu);
