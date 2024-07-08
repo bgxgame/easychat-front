@@ -14,7 +14,8 @@
     "postinstall": "electron-builder install-app-deps",
     "build:win": "npm run build && electron-builder --win --config",
     "build:mac": "npm run build && electron-builder --mac --config",
-    "build:linux": "npm run build && electron-builder --linux --config"
+    "build:linux": "npm run build && electron-builder --linux --config",
+    "electron:generate-icons": "electron-icon-builder --input=./resources/icon.png --output=./resources --flatten"
   },
   "build": {
     "extraResources": [
@@ -83,6 +84,7 @@
     "asarmor": "^2.0.0",
     "electron": "29.3.1",
     "electron-builder": "^24.6.3",
+    "electron-icon-builder": "^2.0.1",
     "electron-vite": "^1.0.27",
     "eslint": "^8.47.0",
     "eslint-plugin-vue": "^9.17.0",

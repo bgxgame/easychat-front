@@ -1,7 +1,6 @@
-import { app, shell, BrowserWindow, webContents ,ipcMain} from 'electron'
+import { app, shell, BrowserWindow, webContents ,ipcMain, Tray, Menu} from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
 const login_width = 300;
@@ -11,7 +10,7 @@ const register_height = 490;
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    icon:icon,
+    icon: join(__dirname,'../../resources/icon.png'),
     width: login_width,
     height: login_height,
     show: false,
@@ -25,9 +24,6 @@ function createWindow() {
       sandbox: false
     }
   })
-  if (NODE_ENV === 'development') {
-    mainWindow.webContents.openDevTools();
-  }
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -55,7 +51,33 @@ function createWindow() {
     }
     mainWindow.setResizable(false);
   })
+
+  //创建任务栏图标、菜单
+  let tray  = new Tray(join(__dirname,'../../resources/icon.png'));
+    const trayContextMenu = Menu.buildFromTemplate([
+      {
+        label: '打开',
+        click: () => {
+          mainWindow.show();
+        }
+      }, 
+      {
+        label: '退出',
+        click: () => {
+          app.quit();
+        }
+      }
+    ]);
+    
+    tray.setToolTip('EasyChat');
+    tray.on('click', () => {
+      win.show();
+    });
+    tray.on('right-click', () => {
+      tray.popUpContextMenu(trayContextMenu);
+    });
 }
+
 
 app.whenReady().then(() => {
   // Set app user model id for windows

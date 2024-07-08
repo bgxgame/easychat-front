@@ -51,7 +51,7 @@ const sumbit = () => {
 // 检查用户输入是否合法
 const checkValue = (type, value, msg) => {
 
-   debugger // 可以打开页面调试 不需要在前端手动打断点
+  debugger // 可以打开页面调试 不需要在前端手动打断点
 
   if (proxy.Utils.isEmpty(value)) {
     errorMsg.value = msg
