@@ -24,7 +24,6 @@ const checkPassword = (value) => {
 const checkEmail = (value) => {
     return regs.email.test(value);
 }
-
 // --------------------------------------
 
 const email = (rule,value,callback) => {

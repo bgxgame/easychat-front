@@ -23,13 +23,13 @@ import Verify from '@/utils/Verify.js'
 
 const app = createApp(App)
 
+// 将Utils Verfiy 作为全局变量
+app.config.globalProperties.Utils = Utils;
+app.config.globalProperties.Verify = Verify;
+
 app.use(router)
 
 app.use(ElementPlus, {
   locale: zhCn
 })
-
-// 将Utils Verfiy 作为全局变量
-app.config.globalProperties.Utils = Utils;
-app.config.globalProperties.Verify = Verify;
 app.mount('#app')

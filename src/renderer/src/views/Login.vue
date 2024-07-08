@@ -12,6 +12,11 @@ const changeOpType = () => {
   console.log('isLogin :', isLogin.value);
   // 渲染进程给主进程发送登录状态
   window.loginOrRegister.isLogin(isLogin.value)
+  nextTick(() => {
+    formDataRef.value.resetFields();
+    formData.value = {};
+    clearVerify();
+  })
 }
 const errorMsg = ref(null)
 
@@ -21,15 +26,24 @@ const sumbit = () => {
   clearVerify();
 
   // 检查用户输入
-  if (!checkValue('checkEmail', formData.value.email, '请输入正确邮箱')) {
+  if (!checkValue('checkEmail', formData.value.email, '请输入正确邮箱')) { //s@qq.com
     return
   }
 
-  if (!checkValue('checkPassword', formData.value.password, '密码为数字、字母、特殊字符8-12位')) {
+  if (!isLogin.value && !checkValue(null, formData.value.nickName, '请输入昵称')) {
     return
   }
 
-  if (!checkValue('null', formData.value.checkcode, '请输入正确验证码')) {
+  if (!checkValue('checkPassword', formData.value.password, '密码为数字、字母、特殊字符8-12位')) { //sas234445$
+    return
+  }
+
+  if (!isLogin.value && formData.value.password != formData.value.rePassword) {
+    errorMsg.value = '两次密码不一致'
+    return
+  }
+
+  if (!checkValue(null, formData.value.checkcode, '请输入正确验证码')) {
     return
   }
 }
@@ -37,7 +51,7 @@ const sumbit = () => {
 // 检查用户输入是否合法
 const checkValue = (type, value, msg) => {
 
-  // debugger 可以打开页面调试 不需要在前端手动打断点
+   debugger // 可以打开页面调试 不需要在前端手动打断点
 
   if (proxy.Utils.isEmpty(value)) {
     errorMsg.value = msg
@@ -48,11 +62,11 @@ const checkValue = (type, value, msg) => {
     errorMsg.value = msg
     return false
   }
-  return true;
+  return true
 }
 
 const clearVerify = () => {
-  errorMsg.value = null;
+  errorMsg.value = null
 }
 </script>
 
@@ -64,7 +78,7 @@ const clearVerify = () => {
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!-- 邮箱输入 -->
         <el-form-item prop="email">
-          <el-input clearable placeholder="请输入邮箱" v-model.trim="formData.email">
+          <el-input clearable placeholder="请输入邮箱" maxLength="25" v-model.trim="formData.email" @focus="clearVerify">
             <template #prefix>
               <span class="iconfont icon-email"></span>
             </template>
@@ -72,7 +86,7 @@ const clearVerify = () => {
         </el-form-item>
         <!-- 注册 昵称输入 -->
         <el-form-item prop="nickName" v-if="!isLogin">
-          <el-input clearable placeholder="请输入昵称" v-model.trim="formData.nickName">
+          <el-input clearable placeholder="请输入昵称" maxLength="15" v-model.trim="formData.nickName" @focus="clearVerify">
             <template #prefix>
               <span class="iconfont icon-user-nick"></span>
             </template>
@@ -80,7 +94,7 @@ const clearVerify = () => {
         </el-form-item>
         <!-- 密码输入 -->
         <el-form-item prop="password">
-          <el-input show-password clearable placeholder="请输入密码" v-model.trim="formData.password">
+          <el-input show-password clearable placeholder="请输入密码" v-model.trim="formData.password" @focus="clearVerify">
             <template #prefix>
               <span class="iconfont icon-password"></span>
             </template>
@@ -88,7 +102,8 @@ const clearVerify = () => {
         </el-form-item>
         <!--注册 再次 密码输入 -->
         <el-form-item prop="rePassword" v-if="!isLogin">
-          <el-input show-password clearable placeholder="请再次输入密码" v-model.trim="formData.rePassword">
+          <el-input show-password clearable placeholder="请再次输入密码" v-model.trim="formData.rePassword"
+            @focus="clearVerify">
             <template #prefix>
               <span class="iconfont icon-password"></span>
             </template>
@@ -96,7 +111,7 @@ const clearVerify = () => {
         </el-form-item>
         <!-- 验证码输入 -->
         <el-form-item prop="checkcode">
-          <el-input clearable placeholder="请输入验证码" v-model.trim="formData.checkcode">
+          <el-input clearable placeholder="请输入验证码" v-model.trim="formData.checkcode" @focus="clearVerify">
             <template #prefix>
               <span class="iconfont icon-checkcode"></span>
             </template>
